@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 from one.api import ONE
@@ -61,7 +62,7 @@ if __name__ == "__main__":
     # --- Configuration ---
     # Load EIDs and PIDs from CSV
     try:
-        input_csv = "re_eids.csv"
+        input_csv = os.path.join("data", "re_eids.csv")
         identifiers = pd.read_csv(input_csv)
     except FileNotFoundError:
         print(f"Error: {input_csv} not found.")
@@ -83,7 +84,7 @@ if __name__ == "__main__":
     if all_data:
         final_df = pd.concat(all_data, ignore_index=True)
         # --- 3. Save the DataFrame to a CSV file ---
-        output_filename = "ibl_channel_data.csv"
+        output_filename = os.path.join("output", "ibl_channel_data.csv")
         final_df.to_csv(output_filename, index=False)
         
         print(f"\nSuccessfully saved the aggregated data to '{output_filename}'")

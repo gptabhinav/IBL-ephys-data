@@ -1,5 +1,31 @@
 # IBL-ephys-data
 
+## Setup
+
+To set up the environment, run the following commands:
+
+```bash
+uv venv --python 3.10
+source .venv/bin/activate
+uv pip install .
+```
+
+## Usage
+
+To download the IBL data:
+
+```bash
+uv run downloader.py
+```
+
+To visualize the downloaded data:
+
+```bash
+uv run visualize.py
+```
+
+## To the important Stuff!!
+
 IBL provides a couple of different datasets. 
 The ones that we are concerned with are 
 1. reproducible ephys data (this was used in LFP2Vec paper)

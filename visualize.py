@@ -1,3 +1,4 @@
+import os
 from iblatlas.atlas import ALLEN_CCF_LANDMARKS_MLAPDV_UM
 import pandas as pd
 import numpy as np
@@ -6,7 +7,7 @@ import numpy as np
 # output
 # {'bregma': array([5739, 5400,  332])}  -- [!! CAUTION !!] this is however -- ap,lr,dv
 
-ibl_df = pd.read_csv("ibl_channel_data.csv") # output from `downloader.py`
+ibl_df = pd.read_csv(os.path.join("output", "ibl_channel_data.csv")) # output from `downloader.py`
 
 # (ap, dv, lr/ml) -- this  is the coordinate system needed for brainregion library points actor's coordinates
 # lr and ml is the same thing, basically the side to side view
