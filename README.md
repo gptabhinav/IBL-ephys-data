@@ -31,7 +31,7 @@ or
 pid:<pid>
 
 
-
+![probe trajectory visualization](static/ephys_visualization.gif)
 
 
 
