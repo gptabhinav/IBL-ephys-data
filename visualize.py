@@ -19,7 +19,8 @@ ibl_xyz = ibl_df[["x", "y", "z"]].to_numpy()
 # which is basically of ml(lr), ap and dv, where the origin is in the top right corner of dorsal view
 # one nice thing is, ibl folks have provided us translation for bregma wrt this coordinate system -- [5739, 5400, 332]
 def convert_xyz_to_ml_ap_dv(x,y,z):
-    # ensure that xyz are in meters
+    # ensure that xyz inputs are in meters
+    # we first convert these into um (micrometers) to be used in allen atlas
     x = 1e6 * x
     y = 1e6 * y
     z = 1e6 * z
