@@ -59,32 +59,45 @@ def get_ibl_channel_data(eid, pid, one=None):
 
 
 if __name__ == "__main__":
+    import argparse
     # --- Configuration ---
+    parser = argparse.ArgumentParser(description="Download IBL channel data with flexible input/output.")
+    parser.add_argument("--input_csv", type=str, default=os.path.join("data", "re_eids.csv"), help="Input CSV file with eids and pids.")
+    parser.add_argument("--dataset", type=str, default=None, help="Dataset name (brainwide_map, reproducible_ephys). Optional.")
+    args = parser.parse_args()
+
     # Load EIDs and PIDs from CSV
     try:
-        input_csv = os.path.join("data", "re_eids.csv")
-        identifiers = pd.read_csv(input_csv)
+        identifiers = pd.read_csv(args.input_csv)
     except FileNotFoundError:
-        print(f"Error: {input_csv} not found.")
+        print(f"Error: {args.input_csv} not found.")
         exit(1)
 
     # Initialize ONE instance once
     one = ONE(base_url='https://openalyx.internationalbrainlab.org', password='international', silent=True)
 
     all_data = []
-    
+    # we just need pid actually
     for index, row in identifiers.iterrows():
-        eid = row['eid']
+        # Handle missing 'eid' column gracefully
+        eid = row['eid'] if 'eid' in row else None
         pid = row['pid']
-        #  we just need pid for downloading the channel data
         df = get_ibl_channel_data(eid, pid, one=one)
         if df is not None:
             all_data.append(df)
-            
+
     if all_data:
         final_df = pd.concat(all_data, ignore_index=True)
         # --- 3. Save the DataFrame to a CSV file ---
-        output_filename = os.path.join("output", "ibl_channel_data.csv")
+        # Output location logic: match visualize_allen.py for IBL datasets
+        if args.dataset in ["brainwide_map", "reproducible_ephys"]:
+            output_dir = os.path.join("output", "ibl", args.dataset)
+            output_filename = os.path.join(output_dir, "channels.csv")
+        else:
+            output_dir = "output"
+            output_filename = os.path.join(output_dir, "ibl_channel_data.csv")
+
+        os.makedirs(output_dir, exist_ok=True)
         final_df.to_csv(output_filename, index=False)
         
         print(f"\nSuccessfully saved the aggregated data to '{output_filename}'")

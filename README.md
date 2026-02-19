@@ -12,17 +12,40 @@ uv pip install .
 
 ## Usage
 
-To download the IBL data:
+
+## Downloading Data
+
+To download IBL probe/channel data using flexible input and output options:
 
 ```bash
-uv run downloader.py
+# Download using default input and output
+# This will download it by default to output/ibl_channel_data.csv and use the file data/re_eids.csv for getting pids and eids
+python downloader.py
+
+# Specify dataset for output location (brainwide_map or reproducible_ephys)
+# Input CSV (must have at least a 'pid' column, 'eid' optional), 
+python downloader.py --input_csv data/reproducible_ephys/ibl_reproducible_ephys_pids.csv --dataset reproducible_ephys
 ```
 
-To visualize the downloaded data:
+Output files will be saved as:
+- `output/ibl_channel_data.csv` (default)
+- `output/ibl/<dataset>/channels.csv` (if --dataset is specified)
+
+## Visualizing Data
+
+You can visualize one or more datasets together. Each dataset will be shown in a different color (see legend in terminal output):
 
 ```bash
-uv run visualize.py
+# Visualize a single dataset
+python visualize.py --vendor ibl --dataset reproducible_ephys
+
+# Visualize multiple datasets together
+python visualize.py --vendor ibl --dataset reproducible_ephys --vendor ibl --dataset brainwide_map --vendor allen --dataset allen
 ```
+
+The number of `--vendor` and `--dataset` arguments must match. Supported vendors: `ibl`, `allen`. Supported datasets: `brainwide_map`, `reproducible_ephys` (for IBL vendor), `allen` (for Allen vendor).
+
+The color legend is also printed on command line before the visualization window opens.
 
 ## To the important Stuff!!
 
@@ -57,6 +80,7 @@ or
 pid:"pid"
 
 
+below is a visualization corresponding to the probe data used from reproducible ephys for lfp2vec paper
 ![probe trajectory visualization](static/ephys_visualization.gif)
 
 
