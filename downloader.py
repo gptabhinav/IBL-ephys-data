@@ -1,3 +1,4 @@
+# this script can be used for downloading data from ibl for a set of pids. also specify the dataset to store the results in the relevant output directory so as to be able to use visualize.py directly on top of this.
 import os
 import numpy as np
 import pandas as pd
