@@ -1,3 +1,4 @@
+# this one converts the output coordinates from ibl to equivalent allen coordinates
 import os
 import numpy as np
 import pandas as pd
